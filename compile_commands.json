@@ -1,0 +1,16 @@
+[
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I./",
+            "-I./build",
+            "-g",
+            "-o",
+            "build/./pred.cpp.o",
+            "pred.cpp"
+        ],
+        "directory": "/home/tjn/cs259/pred",
+        "file": "pred.cpp"
+    }
+]
