@@ -163,8 +163,10 @@ double Loopnest::memory_bound_time(bool conv) {
   int bw_required = bandwidth_for_cache(datatype_bytes,cache_bytes,iters_per_cycle,lvl);
 
   printf("Bandwith required: %d B/cycle\n", bw_required);
-  float bw_required_gbps = bw_required / (1024 * 1024 * 1024) * freq_op * 1000000000;
+  float bw_required_gbps = ((float)bw_required) / (1024 * 1024 * 1024) * freq_op * 1000000000;
+  printf("bw_required_gbps: %f\n", bw_required_gbps);
   float bw_ratio = bw_required_gbps / memory_bw;
+  printf("bw_ratio: %f\n", bw_ratio);
   float comp_time = comp_bound_time(conv);
   printf("Comp time: %f sec?\n", comp_time);
   float memory_bound_time = bw_ratio * comp_time;
@@ -192,6 +194,12 @@ float Loopnest::comp_bound_time(bool conv) {
   printf("total time: %f\n", total_time);
 
   return total_time;
+}
+
+float Loopnest::get_execution_time(bool conv){
+  float memory_bound_time_mm = this->memory_bound_time(conv);
+  float comp_bound_time_mm = this->comp_bound_time(conv);
+  return 0;
 }
 
 /*

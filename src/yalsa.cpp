@@ -150,5 +150,8 @@ int main(int argc, char* argv[]) {
   float memory_bound_time_mm = lns[1].memory_bound_time(conv);
   float comp_bound_time_mm = lns[1].comp_bound_time(conv);
 
+  printf("\n-----test----\n");
+  float poop = lns[1].get_execution_time(conv);
+
   return 0;
 }

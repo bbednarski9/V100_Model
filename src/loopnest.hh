@@ -88,4 +88,6 @@ public:
 
   float comp_bound_time(bool conv);
 
+  float get_execution_time(bool conv);
+
 };
