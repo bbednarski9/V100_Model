@@ -136,5 +136,13 @@ int main(int argc, char* argv[]) {
   printf(" ----- MM Memory Analysis ----- \n");
   float memory_bound_time_mm = lns[1].memory_bound_time();
 
+  printf("\n");
+  printf(" ----- Conv Comp Analysis ----- \n");
+  float comp_bound_time_conv = lns[0].comp_bound_time(true);
+
+  printf("\n");
+  printf(" ----- MM Comp Analysis ----- \n");
+  float comp_bound_time_mm = lns[1].comp_bound_time(false);
+
   return 0;
 }

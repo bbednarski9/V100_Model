@@ -81,4 +81,6 @@ public:
 
   float memory_bound_time_v2();
 
+  float comp_bound_time(bool conv);
+
 };

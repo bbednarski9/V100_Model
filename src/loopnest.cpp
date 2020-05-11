@@ -150,3 +150,28 @@ float Loopnest::memory_bound_time() {
 
   return memory_bound_time;
 }
+
+float Loopnest::comp_bound_time(bool conv) {
+  float throughput = 111; // We should make this a macro. Just putting here for now
+  float total_time;
+  uint total_comps;
+
+  if (conv){
+    total_comps = 2*dims[VarN]*this->dims[VarC]*this->dims[VarK]*dims[VarX]*this->dims[VarY]*this->dims[VarS]*this->dims[VarR];
+    total_time = ((float)total_comps)/throughput;
+    printf("total time: %f\n", total_time);
+    printf("total comps: %u\n", total_comps);
+    return 0;
+  }
+
+  // Fully connected
+  else {
+    // I am a little confused if these are the correct dimensions but it
+    // is all they specify for gemm in loopnest, so I assume so
+    total_comps = 2*this->dims[VarN]*this->dims[VarC]*this->dims[VarK];
+    total_time = ((float)total_comps)/throughput;
+    printf("GEMM total time: %f\n", total_time);
+    printf("total comps: %u\n", total_comps);
+  }
+  return total_time;
+}
