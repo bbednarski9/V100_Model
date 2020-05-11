@@ -125,7 +125,6 @@ void Loopnest::print_bandwidth_analysis() {
 
 // added by bryanbed
 
-
 // Computes memory read time for perfect data re-use (infinite cache size)
 int Loopnest::compute_memory_read(int datatype_bytes) {
   int mem_total = 0;
@@ -158,22 +157,19 @@ double Loopnest::memory_bound_time(bool conv) {
   int datatype_bytes=4;
   int iters_per_cycle=1024; // not sure about this value right now
   int cache_bytes=4718592; //bytes
-  int memory_bw = 513500; //from ERT for bypes -> uSec
-  double freq_op = 1.46e-9; // seconds per cycle -> 1.46Ghz
+  int memory_bw = 630; //GBPS
+  float freq_op = 1.46; // 1.46Ghz
   int lvl;
   int bw_required = bandwidth_for_cache(datatype_bytes,cache_bytes,iters_per_cycle,lvl);
-  //uint64_t total_comps = calc_total_comps(conv);
-  //int total_data_read = total_comps * datatype_bytes * 2;
-  float comp_time = comp_bound_time(conv);
-  printf("Bandwith required: %d B/cycle\n", bw_required);
-  printf("Comp time: %f sec?\n", comp_time);
-  //double memory_bound_time = (double) (bw_required  / freq_op  / total_data_read); // -> in uSec
-  //double memory_bound_time = (double) (bw_required  / freq_op / total_comps); // -> in uSec
-  double total_memory_bytes = (double) (bw_required  / freq_op * comp_time);
-  printf("Total memory:%f Bytes\n",total_memory_bytes);
 
-  double memory_bound_time = total_memory_bytes / memory_bw; //in uSec
-  printf("Memory bound time:%f uSec\n",memory_bound_time);
+  printf("Bandwith required: %d B/cycle\n", bw_required);
+  float bw_required_gbps = bw_required / (1024 * 1024 * 1024) * freq_op * 1000000000;
+  float bw_ratio = bw_required_gbps / memory_bw;
+  float comp_time = comp_bound_time(conv);
+  printf("Comp time: %f sec?\n", comp_time);
+  float memory_bound_time = bw_ratio * comp_time;
+
+  printf("Memory bound time:%f sec\n",memory_bound_time); // seconds
   return memory_bound_time;
 }
 
@@ -197,3 +193,30 @@ float Loopnest::comp_bound_time(bool conv) {
 
   return total_time;
 }
+
+/*
+float Loopnest::comp_bound_time(bool conv) {
+  float throughput = 111; // We should make this a macro. Just putting here for now
+  float total_time;
+  uint total_comps;
+
+  if (conv){
+    total_comps = 2*dims[VarN]*this->dims[VarC]*this->dims[VarK]*dims[VarX]*this->dims[VarY]*this->dims[VarS]*this->dims[VarR];
+    total_time = ((float)total_comps)/throughput;
+    printf("total time: %f\n", total_time);
+    printf("total comps: %u\n", total_comps);
+    return 0;
+  }
+
+  // Fully connected
+  else {
+    // I am a little confused if these are the correct dimensions but it
+    // is all they specify for gemm in loopnest, so I assume so
+    total_comps = 2*this->dims[VarN]*this->dims[VarC]*this->dims[VarK];
+    total_time = ((float)total_comps)/throughput;
+    printf("GEMM total time: %f\n", total_time);
+    printf("total comps: %u\n", total_comps);
+  }
+  return total_time;
+}
+*/

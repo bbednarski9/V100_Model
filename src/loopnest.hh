@@ -87,4 +87,5 @@ public:
   double calc_total_comps(bool conv);
 
   float comp_bound_time(bool conv);
+
 };

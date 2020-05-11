@@ -135,11 +135,20 @@ int main(int argc, char* argv[]) {
   //printf(" ----- Conv Memory Analysis ----- \n");
   //float memory_bound_time_conv = lns[0].memory_bound_time();
 
+  //printf("\n");
+  //printf(" ----- MM Memory Analysis ----- \n");
+  //float memory_bound_time_mm = lns[1].memory_bound_time(conv);
+  //float comp_bound_time_mm = lns[1].comp_bound_time(conv)
+
+  //printf("\n");
+  //printf(" ----- Conv Comp Analysis ----- \n");
+  //float comp_bound_time_conv = lns[0].comp_bound_time(true);
+
   printf("\n");
-  printf(" ----- MM Memory Analysis ----- \n");
+  printf(" ----- MM Comp Analysis ----- \n");
   bool conv = false;
   float memory_bound_time_mm = lns[1].memory_bound_time(conv);
-  float comp_bound_time_mm = lns[1].comp_bound_time(conv)
+  float comp_bound_time_mm = lns[1].comp_bound_time(conv);
 
   return 0;
 }
