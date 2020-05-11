@@ -81,6 +81,7 @@ float Loopnest::bandwidth_for_cache(int datatype_bytes, int cache_bytes,
     total_volume*=datatype_bytes;
   }
 
+  printf("Total volume:%d\n",total_volume);
   float bytes_per_cycle = (float) total_volume / ((float)iters / (float)iters_per_cycle);
 
   return bytes_per_cycle;
@@ -123,6 +124,9 @@ void Loopnest::print_bandwidth_analysis() {
 }
 
 // added by bryanbed
+
+
+// Computes memory read time for perfect data re-use (infinite cache size)
 int Loopnest::compute_memory_read(int datatype_bytes) {
   int mem_total = 0;
   for(int i = 0; i < arrays.size(); i++){
@@ -140,7 +144,8 @@ int Loopnest::compute_memory_read(int datatype_bytes) {
   return mem_total * datatype_bytes;
 }
 
-float Loopnest::memory_bound_time() {
+double Loopnest::memory_bound_time(bool conv) {
+  /*
   int datatype_bytes=4;
   int memory_bw = 652000; //-> uSec, using 652 GB/sec
   int total_data = compute_memory_read(datatype_bytes);
@@ -149,4 +154,46 @@ float Loopnest::memory_bound_time() {
   printf("Expected memory bound time:%fuSec\n",memory_bound_time);
 
   return memory_bound_time;
+  */
+  int datatype_bytes=4;
+  int iters_per_cycle=1024; // not sure about this value right now
+  int cache_bytes=4718592; //bytes
+  int memory_bw = 513500; //from ERT for bypes -> uSec
+  double freq_op = 1.46e-9; // seconds per cycle -> 1.46Ghz
+  int lvl;
+  int bw_required = bandwidth_for_cache(datatype_bytes,cache_bytes,iters_per_cycle,lvl);
+  //uint64_t total_comps = calc_total_comps(conv);
+  //int total_data_read = total_comps * datatype_bytes * 2;
+  float comp_time = comp_bound_time(conv);
+  printf("Bandwith required: %d B/cycle\n", bw_required);
+  printf("Comp time: %f sec?\n", comp_time);
+  //double memory_bound_time = (double) (bw_required  / freq_op  / total_data_read); // -> in uSec
+  //double memory_bound_time = (double) (bw_required  / freq_op / total_comps); // -> in uSec
+  double total_memory_bytes = (double) (bw_required  / freq_op * comp_time);
+  printf("Total memory:%f Bytes\n",total_memory_bytes);
+
+  double memory_bound_time = total_memory_bytes / memory_bw; //in uSec
+  printf("Memory bound time:%f uSec\n",memory_bound_time);
+  return memory_bound_time;
+}
+
+double Loopnest::calc_total_comps(bool conv) {
+  uint64_t total_comps = 0;
+  if (conv) { // conv
+    total_comps = (uint64_t) 2*dims[VarN]*this->dims[VarC]*this->dims[VarK]*dims[VarX]*this->dims[VarY]*this->dims[VarS]*this->dims[VarR];
+  } else { // fully-connected
+    total_comps = (uint64_t) 2*this->dims[VarN]*this->dims[VarC]*this->dims[VarK];
+  }
+  printf("total comps: %llu\n", total_comps);
+  return total_comps;
+}
+
+float Loopnest::comp_bound_time(bool conv) {
+  float throughput = 111; // We should make this a macro. Just putting here for now
+  float total_time;
+  uint64_t total_comps = calc_total_comps(conv);
+  total_time = ((float)total_comps)/throughput;
+  printf("total time: %f\n", total_time);
+
+  return total_time;
 }

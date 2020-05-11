@@ -83,9 +83,12 @@ void add_example_mm(std::vector<Loopnest>& lns) {
   Loopnest b;
   lns.push_back(b);
   Loopnest& ln = lns.back();
-  ln.dims[VarN]=64;
-  ln.dims[VarC]=256;
-  ln.dims[VarK]=256;
+  //ln.dims[VarN]=64;
+  //ln.dims[VarC]=256;
+  //ln.dims[VarK]=256;
+  ln.dims[VarN]=2048;
+  ln.dims[VarC]=2048;
+  ln.dims[VarK]=2048;
 
   Array array_a = Array("a",{{VarN},{VarC}});
   Array array_b = Array("b",{{VarC},{VarK}});
@@ -118,23 +121,25 @@ int main(int argc, char* argv[]) {
   add_example_mm(lns);
 
   // Do some basic analysis on each:
-  printf("\n");
-  printf(" ----- Example Conv Analysis ----- \n");
-  lns[0].print_volume_analysis();
-  lns[0].print_bandwidth_analysis();
+  //printf("\n");
+  //printf(" ----- Example Conv Analysis ----- \n");
+  //lns[0].print_volume_analysis();
+  //lns[0].print_bandwidth_analysis();
 
-  printf("\n");
-  printf(" ----- Example MM Analysis ----- \n");
-  lns[1].print_volume_analysis();
-  lns[1].print_bandwidth_analysis();
+  //printf("\n");
+  //printf(" ----- Example MM Analysis ----- \n");
+  //lns[1].print_volume_analysis();
+  //lns[1].print_bandwidth_analysis();
 
-  printf("\n");
-  printf(" ----- Conv Memory Analysis ----- \n");
-  float memory_bound_time_conv = lns[0].memory_bound_time();
+  //printf("\n");
+  //printf(" ----- Conv Memory Analysis ----- \n");
+  //float memory_bound_time_conv = lns[0].memory_bound_time();
 
   printf("\n");
   printf(" ----- MM Memory Analysis ----- \n");
-  float memory_bound_time_mm = lns[1].memory_bound_time();
+  bool conv = false;
+  float memory_bound_time_mm = lns[1].memory_bound_time(conv);
+  float comp_bound_time_mm = lns[1].comp_bound_time(conv)
 
   return 0;
 }

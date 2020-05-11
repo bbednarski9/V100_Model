@@ -1,6 +1,7 @@
 #include <vector>
 #include <stdio.h>
 #include <string>
+#include <stdint.h>
 
 // Variables are given an integer index for simplicity:
 #define VarN 0 //batch
@@ -75,10 +76,15 @@ public:
   // added by bryanbed
   int compute_memory_read(int datatype_bytes);
 
-  float memory_bound_time();
+  double memory_bound_time(bool conv);
 
   int compute_memory_read_v2(int datatype_bytes);
 
   float memory_bound_time_v2();
 
+  int global_to_cache(int datatype_bytes, int cache_bytes);
+
+  double calc_total_comps(bool conv);
+
+  float comp_bound_time(bool conv);
 };
