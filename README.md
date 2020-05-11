@@ -6,6 +6,7 @@ This is a very simple loop schedule analysis for teaching purposes.
 It should be seen as a proof of concept. : )
 
 
+
 # Purpose
 
 Model the memory bandwidth behavior of a given loop schedule.
