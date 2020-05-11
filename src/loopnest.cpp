@@ -187,7 +187,7 @@ double Loopnest::calc_total_comps(bool conv) {
 }
 
 float Loopnest::comp_bound_time(bool conv) {
-  float throughput = 111; // We should make this a macro. Just putting here for now
+  float throughput = 18700000; // We should make this a macro. Just putting here for now
   float total_time;
   uint64_t total_comps = calc_total_comps(conv);
   total_time = ((float)total_comps)/throughput;
