@@ -155,7 +155,7 @@ double Loopnest::memory_bound_time(bool conv) {
   return memory_bound_time;
   */
   int datatype_bytes=4;
-  int iters_per_cycle=1024; // not sure about this value right now
+  int iters_per_cycle=5120; // not sure about this value right now
   int cache_bytes=4718592; //bytes
   int memory_bw = 630; //GBPS
   float freq_op = 1.46; // 1.46Ghz
@@ -178,9 +178,9 @@ double Loopnest::memory_bound_time(bool conv) {
 double Loopnest::calc_total_comps(bool conv) {
   uint64_t total_comps = 0;
   if (conv) { // conv
-    total_comps = (uint64_t) 2*dims[VarN]*this->dims[VarC]*this->dims[VarK]*dims[VarX]*this->dims[VarY]*this->dims[VarS]*this->dims[VarR];
+    total_comps = (uint64_t) 2*dims[VarN]*dims[VarC]*dims[VarK]*dims[VarX]*dims[VarY]*dims[VarS]*dims[VarR];
   } else { // fully-connected
-    total_comps = (uint64_t) 2*this->dims[VarN]*this->dims[VarC]*this->dims[VarK];
+    total_comps = (uint64_t) 2*dims[VarN]*dims[VarC]*dims[VarK];
   }
   printf("total comps: %llu\n", total_comps);
   return total_comps;

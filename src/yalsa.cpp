@@ -20,7 +20,7 @@ void add_example_conv(std::vector<Loopnest>& lns) {
 
   // This is where the problem parameters are set
   //DianNao -- Conv3
-  ln.dims[VarN]=1;
+  ln.dims[VarN]=64;
   ln.dims[VarC]=64;
   ln.dims[VarK]=64;
   ln.dims[VarX]=224;
@@ -86,9 +86,9 @@ void add_example_mm(std::vector<Loopnest>& lns) {
   //ln.dims[VarN]=64;
   //ln.dims[VarC]=256;
   //ln.dims[VarK]=256;
-  ln.dims[VarN]=2048;
-  ln.dims[VarC]=2048;
-  ln.dims[VarK]=2048;
+  ln.dims[VarN]= 1;
+  ln.dims[VarC]= 16384;
+  ln.dims[VarK]= 16384;
 
   Array array_a = Array("a",{{VarN},{VarC}});
   Array array_b = Array("b",{{VarC},{VarK}});
@@ -147,11 +147,11 @@ int main(int argc, char* argv[]) {
   printf("\n");
   printf(" ----- MM Comp Analysis ----- \n");
   bool conv = false;
-  float memory_bound_time_mm = lns[1].memory_bound_time(conv);
-  float comp_bound_time_mm = lns[1].comp_bound_time(conv);
+  float gemm_etime = lns[1].get_execution_time(conv);
 
-  printf("\n-----test----\n");
-  float poop = lns[1].get_execution_time(conv);
+  printf("\n");
+  printf(" ----- Conv Comp Analysis ----- \n");
+  float conv_etime = lns[0].get_execution_time(true);
 
   return 0;
 }
