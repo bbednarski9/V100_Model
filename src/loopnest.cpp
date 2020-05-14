@@ -170,8 +170,9 @@ double Loopnest::memory_bound_time(bool conv) {
   float comp_time = comp_bound_time(conv);
   printf("Comp time: %f sec?\n", comp_time);
   float memory_bound_time = bw_ratio * comp_time;
-
-  printf("Memory bound time:%f sec\n",memory_bound_time); // seconds
+  if (memory_bound_time < comp_time)
+  	memory_bound_time = comp_time;
+  printf("\n\n FINAL time:%f sec\n\n",memory_bound_time); // seconds
   return memory_bound_time;
 }
 
@@ -191,7 +192,7 @@ float Loopnest::comp_bound_time(bool conv) {
   float total_time;
   uint64_t total_comps = calc_total_comps(conv);
   total_time = ((float)total_comps)/throughput;
-  printf("total time computation: %f\n", total_time);
+  printf("computation time: %f\n", total_time);
 
   return total_time;
 }

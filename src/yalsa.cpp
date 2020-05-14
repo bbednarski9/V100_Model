@@ -20,11 +20,11 @@ void add_example_conv(std::vector<Loopnest>& lns) {
 
   // This is where the problem parameters are set
   //DianNao -- Conv3
-  ln.dims[VarN]=64;
-  ln.dims[VarC]=64;
-  ln.dims[VarK]=64;
-  ln.dims[VarX]=224;
-  ln.dims[VarY]=224;
+  ln.dims[VarN]=1;
+  ln.dims[VarC]=1;
+  ln.dims[VarK]=1;
+  ln.dims[VarX]==512;
+  ln.dims[VarY]=512;
   ln.dims[VarR]=3;
   ln.dims[VarS]=3;
 
@@ -67,15 +67,15 @@ void add_example_conv(std::vector<Loopnest>& lns) {
   loops.emplace_back(VarX,dims[VarX]);
   loops.emplace_back(VarK,dims[VarK]); // Output Channel Loop
 
-  loops.emplace_back(VarY,Ty); // Tile Spatial Loop
-  loops.emplace_back(VarX,Tx);
-  loops.emplace_back(VarK,Tkk); // First Tile Output Channel Loop
+  // loops.emplace_back(VarY,Ty); // Tile Spatial Loop
+  // loops.emplace_back(VarX,Tx);
+  // loops.emplace_back(VarK,Tkk); // First Tile Output Channel Loop
 
   loops.emplace_back(VarS,dims[VarS]); // Filter Loops
   loops.emplace_back(VarR,dims[VarR]);
   loops.emplace_back(VarC,dims[VarC]); // Input Channel Loop
-  loops.emplace_back(VarK,Tk); // Second Tile Output Channel Loop
-  loops.emplace_back(VarC,Tc); // Tile Input Channel Loop
+  // loops.emplace_back(VarK,Tk); // Second Tile Output Channel Loop
+  // loops.emplace_back(VarC,Tc); // Tile Input Channel Loop
 
 }
 
@@ -99,16 +99,16 @@ void add_example_mm(std::vector<Loopnest>& lns) {
   ln.arrays.push_back(array_c);
 
 
-  int Tn=32;
-  int Tc=32;
-  int Tk=32;
+  // int Tn=32;
+  // int Tc=32;
+  // int Tk=32;
 
   ln.loops.emplace_back(VarN,ln.dims[VarN]);
   ln.loops.emplace_back(VarC,ln.dims[VarC]);
   ln.loops.emplace_back(VarK,ln.dims[VarK]);
-  //ln.loops.emplace_back(VarN,Tn);
-  //ln.loops.emplace_back(VarC,Tc);
-  //ln.loops.emplace_back(VarK,Tk);
+  // ln.loops.emplace_back(VarN,Tn);
+  // ln.loops.emplace_back(VarC,Tc);
+  // ln.loops.emplace_back(VarK,Tk);
 }
 
 
