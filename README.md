@@ -1,39 +1,11 @@
-# yalsa
-Yet Another Loop Schedule Analysis
+## ECE259: Mini-Project 2
+May 13, 2020
+Bryan Bednarski & Matt Nicholas
 
+This C++ code base is adapted from the Yalsa loop scheduler (below), as a simple model of the Titan V GPGPU computational and memory bound times. In this code, the memory bound time (DRAM to cache) and computational bound time (execuation time) are modeled for convolution and matrix multiply kernels. These results are modeled to the theoretical bandwidth and throughput of the system to see how closley this simple model is able to track the runtimes of highly optimized CUDNN kernels through the DeepBench simulation environment from Baidu Research.
 
-This is a very simple loop schedule analysis for teaching purposes.  
-It should be seen as a proof of concept. : )
+### Code adapted from Yalsa: Yet Another Loop Schedule Analysis Tool
+https://github.com/PolyArch/yalsa
 
-
-
-# Purpose
-
-Model the memory bandwidth behavior of a given loop schedule.
-
-Limitations (yes, there are many many):
-* Arrays may only be index by the sum of variables (no striding)
-* Loops iterate over a single dimension
-* Computations are fully commutative
-* Loopnests are "perfect" -- computation only at the innermost loop
-* No control flow beyond loops
-* Bandwidth computations are insensitive to data layout (no cacheline penalties)
-* Output arrays are treated the same as input arrays, this overestimates data slightly
-
-Even with the above, analyzing reuse and bandwidth requirements for many 
-dense matrix operations should be possible.
-
-# Notes on usage
-* Currently, there are a fixed set of variable dimensions, more can be added
-* Loopnests are the unit of abstraction, and have:
-  - Problem Dimensions
-  - Set of arrays accessed in each iteration
-    * Arrays specified by which dimensions they are coupled with
-    * Convolution pattern is described by array dimension coupling with two variables
-  - Set of loop levels
-    * Loop levels are defined by variable and extent 
-    * Loopnests are defined from outermost to innermost loop
-    * Tiling may be specified by duplicate loops over the same dimension
-    * Tiling is when extent < dimension size
-    * Extent of each dimension must be the same or decrease from outer to innermost loops
-
+### Results compared to DeepBench CUDNN kernel execuation times
+https://github.com/baidu-research/DeepBench
