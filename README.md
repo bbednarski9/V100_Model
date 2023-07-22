@@ -1,4 +1,3 @@
-## ECE259: Mini-Project 2
 May 13, 2020
 Bryan Bednarski & Matt Nicholas
 
